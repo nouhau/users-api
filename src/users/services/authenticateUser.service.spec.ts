@@ -16,7 +16,7 @@ describe('AuthenticateUserService', () => {
     authenticateUseService = new AuthenticateUserService({
       userRepository: userMockRepository,
       email: userMock.email,
-      password: userMock.password
+      password: '123456'
     })
   })
 
