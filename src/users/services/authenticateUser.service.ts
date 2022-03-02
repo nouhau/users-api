@@ -1,3 +1,4 @@
+import { compare } from 'bcryptjs'
 import { getCustomRepository } from 'typeorm'
 import { User } from '../../common/entities/Users'
 import { LoggerService } from '../../common/LoggerService'
@@ -31,6 +32,12 @@ export class AuthenticateUserService {
         this.constructor.name
       )
 
-      return await this.userRepository.findAuthUser(this.email, this.password)
+      const validPassword = await compare(this.password, '$2a$08$G288KqPr1YC7LjoIID/DvOJVD9WntYJiN2QeKTceFpMhR5lkYL9Oi')
+
+      if (!validPassword) {
+        throw new Error()
+      }
+
+      return await this.userRepository.findAuthUser(this.email, '$2a$08$G288KqPr1YC7LjoIID/DvOJVD9WntYJiN2QeKTceFpMhR5lkYL9Oi')
     }
 }

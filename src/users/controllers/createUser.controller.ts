@@ -8,7 +8,6 @@ export class CreateUserController {
   private logger: LoggerService = new LoggerService()
 
   async handle (request: Request, response: Response): Promise<Response> {
-    console.log(request.body)
     const userRequest: UserRequest = new UserRequest(request.body)
     const createUserService = new CreateUserService(request.body)
 

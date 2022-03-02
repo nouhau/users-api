@@ -1,5 +1,4 @@
-import { getConnection } from 'typeorm'
-import createConnection from '../../config/database'
+import mockConnection from '../../__mocks__/mockConnection'
 import { getMockUser } from '../../__mocks__/mockUser'
 import { CreateUserService } from './createUser.service'
 
@@ -13,7 +12,7 @@ describe('CreateUserService', () => {
   const userMock = getMockUser()
 
   beforeEach(async () => {
-    await createConnection()
+    await mockConnection.create()
     createUserService = new CreateUserService({
       userRepository: userMockRepository,
       name: userMock.name,
@@ -24,8 +23,7 @@ describe('CreateUserService', () => {
   })
 
   afterEach(async () => {
-    const connection = getConnection()
-    await connection.close()
+    await mockConnection.clear()
   })
 
   it('Create and return a new user created', async () => {

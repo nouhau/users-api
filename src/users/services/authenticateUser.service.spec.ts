@@ -1,5 +1,4 @@
-import { getConnection } from 'typeorm'
-import createConnection from '../../config/database'
+import mockConnection from '../../__mocks__/mockConnection'
 import { getMockUser } from '../../__mocks__/mockUser'
 import { AuthenticateUserService } from './authenticateUser.service'
 
@@ -13,7 +12,7 @@ describe('AuthenticateUserService', () => {
   const userMock = getMockUser()
 
   beforeEach(async () => {
-    await createConnection()
+    await mockConnection.create()
     authenticateUseService = new AuthenticateUserService({
       userRepository: userMockRepository,
       email: userMock.email,
@@ -22,8 +21,7 @@ describe('AuthenticateUserService', () => {
   })
 
   afterEach(async () => {
-    const connection = getConnection()
-    await connection.close()
+    await mockConnection.clear()
   })
 
   it('Get user with email and password matches', async () => {

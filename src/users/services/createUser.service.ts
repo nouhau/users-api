@@ -1,3 +1,4 @@
+import { hash } from 'bcryptjs'
 import { getCustomRepository } from 'typeorm'
 import { User } from '../../common/entities/Users'
 import { LoggerService } from '../../common/LoggerService'
@@ -32,6 +33,8 @@ export class CreateUserService {
         'Creating user',
         this.constructor.name
       )
+
+      this.user.password = await hash(this.user.password, 8)
 
       return await this.userRepository.save(this.user)
     }
