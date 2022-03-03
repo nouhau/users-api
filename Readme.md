@@ -16,7 +16,7 @@
 - mapping-api
 - user-api
 
-3 - Instale o Docker
+2 - Instale o Docker
 
 ---
     https://www.docker.com/products/docker-desktop

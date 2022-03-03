@@ -10,7 +10,7 @@
     "test:unit": "jest --coverage src",
     "start": "node ./build/index.js",
     "build": "rm -rf ./build && tsc",
-    "service:dev": "export PORT=5000 && yarn build && yarn start",
+    "service:dev": "export PORT=5011 && yarn build && yarn start",
     "lint": "eslint .",
     "lint:fix": "eslint --fix --ext .js,.ts ."
   },
