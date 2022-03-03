@@ -25,11 +25,10 @@ export class UserRepository {
       return await this.manager.save(user)
     }
 
-    findAuthUser = async (email: string, password: string): Promise<User> => {
+    findAuthUser = async (email: string): Promise<User> => {
       return await this.manager.findOne(User, {
         where: {
-          email,
-          password
+          email
         }
       })
     }

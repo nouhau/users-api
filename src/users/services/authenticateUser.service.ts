@@ -32,12 +32,14 @@ export class AuthenticateUserService {
         this.constructor.name
       )
 
-      const validPassword = await compare(this.password, '$2a$08$G288KqPr1YC7LjoIID/DvOJVD9WntYJiN2QeKTceFpMhR5lkYL9Oi')
+      const user = await this.userRepository.findAuthUser(this.email)
+
+      const validPassword = await compare(this.password, user.password)
 
       if (!validPassword) {
         throw new Error()
       }
 
-      return await this.userRepository.findAuthUser(this.email, '$2a$08$G288KqPr1YC7LjoIID/DvOJVD9WntYJiN2QeKTceFpMhR5lkYL9Oi')
+      return user
     }
 }

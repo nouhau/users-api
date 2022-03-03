@@ -34,8 +34,16 @@ export class CreateUserService {
         this.constructor.name
       )
 
-      this.user.password = await hash(this.user.password, 8)
+      // TODO: refactor method
+      return await this.userRepository.findAuthUser(this.user.email)
+        .then(async user => {
+          if (!user) {
+            this.user.password = await hash(this.user.password, 8)
 
-      return await this.userRepository.save(this.user)
+            return await this.userRepository.save(this.user)
+          }
+
+          throw new Error()
+        })
     }
 }

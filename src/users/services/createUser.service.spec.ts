@@ -1,7 +1,9 @@
+import * as bcrypt from 'bcryptjs'
 import mockConnection from '../../__mocks__/mockConnection'
 import { getMockUser } from '../../__mocks__/mockUser'
 import { CreateUserService } from './createUser.service'
 
+jest.mock('bcryptjs')
 jest.mock('../../common/repositories/users.repository')
 
 const userMockRepository = require('../../common/repositories/users.repository')
@@ -29,6 +31,10 @@ describe('CreateUserService', () => {
   it('Create and return a new user created', async () => {
     userMockRepository.save = jest.fn()
       .mockImplementation(() => Promise.resolve(userMock))
+    userMockRepository.findAuthUser = jest.fn()
+      .mockImplementation(() => Promise.resolve(undefined))
+
+    jest.spyOn(bcrypt, 'hash').mockImplementation(() => Promise.resolve('3ncrypt3d'))
 
     const user = await createUserService.execute()
 

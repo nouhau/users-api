@@ -1,7 +1,9 @@
+import * as bcrypt from 'bcryptjs'
 import mockConnection from '../../__mocks__/mockConnection'
 import { getMockUser } from '../../__mocks__/mockUser'
 import { AuthenticateUserService } from './authenticateUser.service'
 
+jest.mock('bcryptjs')
 jest.mock('../../common/repositories/users.repository')
 
 const userMockRepository = require('../../common/repositories/users.repository')
@@ -16,7 +18,7 @@ describe('AuthenticateUserService', () => {
     authenticateUseService = new AuthenticateUserService({
       userRepository: userMockRepository,
       email: userMock.email,
-      password: '123456'
+      password: userMock.password
     })
   })
 
@@ -27,6 +29,8 @@ describe('AuthenticateUserService', () => {
   it('Get user with email and password matches', async () => {
     userMockRepository.findAuthUser = jest.fn()
       .mockImplementation(() => Promise.resolve(userMock))
+
+    jest.spyOn(bcrypt, 'compare').mockImplementation(() => Promise.resolve(true))
 
     const user = await authenticateUseService.execute()
 

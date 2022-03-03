@@ -34,20 +34,9 @@ describe('userRepository', () => {
     expect(user).toMatchObject(userMock)
   })
 
-  it('should return a user when name and password match', async () => {
-    const user = await userRepository.findAuthUser(userMock.email, userMock.password)
+  it('should return a user when exists with email', async () => {
+    const user = await userRepository.findAuthUser(userMock.email)
     expect(user).toMatchObject(userMock)
-  })
-
-  it('should return a null object password not match with exists password', async () => {
-    managerMock = await getManagerMock({
-      findOneReturn: null
-    })
-
-    userRepository = new UserRepository(managerMock)
-
-    const user = await userRepository.findAuthUser(userMock.email, '1234')
-    expect(user).toBe(null)
   })
 
   it('should return a null object when user does not exist', async () => {
@@ -57,7 +46,7 @@ describe('userRepository', () => {
 
     userRepository = new UserRepository(managerMock)
 
-    const user = await userRepository.findAuthUser('User not exists', '1234')
+    const user = await userRepository.findAuthUser(userMock.email)
     expect(user).toBe(null)
   })
 })
