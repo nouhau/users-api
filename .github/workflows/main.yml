@@ -45,6 +45,6 @@ jobs:
       uses: akhileshns/heroku-deploy@v3.12.12
       with:
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-        heroku_app_name: "stage-mapping-api"
+        heroku_app_name: "stage-user-api"
         heroku_email: "nathallyccd@gmail.com"
         buildpack: "https://github.com/zidizei/heroku-buildpack-tsc#v2.0"
