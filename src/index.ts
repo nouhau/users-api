@@ -35,6 +35,10 @@ server.use(
   authRouter
 )
 
+server.get('/', (request: Request, response: Response) => {
+  return response.status(200).json({ message: 'Wellcome' })
+})
+
 server.listen(PORT, () => {
   console.log(`Server on port ${PORT} \nhttp://localhost:${PORT}`)
 })
