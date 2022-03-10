@@ -34,8 +34,7 @@ export class GetTokenService {
             email: user.email,
             role: user.role
           },
-          // TODO: change token
-          'token',
+          process.env.TOKEN,
           {
             subject: user.user_id
           })
