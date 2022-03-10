@@ -4,7 +4,7 @@ module.exports = {
   port: process.env.DATABASE_PORT,
   username: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
-  database: process.env.PORT === 5001 ? 'test' : process.env.DATABASE_NAME,
+  database: process.env.DATABASE_NAME,
   ssl: {
     // DO NOT DO THIS
     // set up your ca correctly to trust the connection
