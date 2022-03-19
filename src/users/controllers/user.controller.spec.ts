@@ -1,24 +1,27 @@
 import { Request } from 'express'
 import { getMockUser } from '../../__mocks__/mockUser'
 import { makeMockResponse } from '../../__mocks__/mockResponse'
-import { CreateUserController } from './createUser.controller'
+import { UserController } from './user.controller'
+import { userRole } from '../../common/constants/userRole'
 
 let mockExecute = jest.fn()
+let mockGetStudents = jest.fn()
 
-jest.mock('../services/createUser.service', () => {
+jest.mock('../services/user.service', () => {
   return {
-    CreateUserService: jest.fn().mockImplementation(() => {
+    UserService: jest.fn().mockImplementation(() => {
       return {
-        execute: mockExecute
+        createUser: mockExecute,
+        getStudents: mockGetStudents
       }
     })
   }
 })
 
-describe('CreateUserController', () => {
+describe('UserController', () => {
   const userMock = getMockUser()
 
-  const createUserController = new CreateUserController()
+  const userController = new UserController()
 
   const request = {
     body: {
@@ -34,7 +37,7 @@ describe('CreateUserController', () => {
   it('should return a skill when created', async () => {
     mockExecute = jest.fn().mockResolvedValue(userMock)
 
-    await createUserController.handle(request, response)
+    await userController.handle(request, response)
 
     expect(mockExecute).toBeCalled()
     expect(response.state.status).toBe(200)
@@ -50,7 +53,7 @@ describe('CreateUserController', () => {
         role: userMock.role
       }
     } as Request
-    await createUserController.handle(request, response)
+    await userController.handle(request, response)
     expect(response.state.status).toBe(400)
   })
 
@@ -59,7 +62,21 @@ describe('CreateUserController', () => {
       throw new Error()
     })
 
-    await createUserController.handle(request, response)
+    await userController.handle(request, response)
     expect(response.state.status).toBe(500)
+  })
+
+  it('should return status 200 when getStudents', async () => {
+    const request = { } as Request
+
+    const mockStudents = [
+      getMockUser(userRole.STUDENT),
+      getMockUser(userRole.STUDENT)
+    ]
+
+    mockGetStudents = jest.fn().mockResolvedValue(mockStudents)
+
+    await userController.getStudents(request, response)
+    expect(response.state.status).toBe(200)
   })
 })
