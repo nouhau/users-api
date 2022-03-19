@@ -2,18 +2,23 @@ import { Request, Response } from 'express'
 import { validateOrReject } from 'class-validator'
 import { LoggerService } from '../../common/LoggerService'
 import { UserRequest } from '../dto/userRequest.dto'
-import { CreateUserService } from '../services/createUser.service'
+import { UserService } from '../services/user.service'
 
-export class CreateUserController {
+export class UserController {
   private logger: LoggerService = new LoggerService()
 
   async handle (request: Request, response: Response): Promise<Response> {
     const userRequest: UserRequest = new UserRequest(request.body)
-    const createUserService = new CreateUserService(request.body)
+    const userService = new UserService({})
 
     return await validateOrReject(userRequest)
       .then(async () => {
-        return await createUserService.execute()
+        return await userService.createUser(
+          userRequest.name,
+          userRequest.email,
+          userRequest.password,
+          userRequest.email
+        )
           .then(user => {
             return response.status(200).json(user)
           })
@@ -35,6 +40,17 @@ export class CreateUserController {
         if (errorCode) {
           return response.status(400).json({ message: errorCode })
         }
+        return response.status(500).json({ message: 'Error' })
+      })
+  }
+
+  async getStudents (request: Request, response: Response): Promise<Response> {
+    const userService = new UserService({})
+    return await userService.getStudents()
+      .then(students => {
+        return response.status(200).json({ students })
+      })
+      .catch(() => {
         return response.status(500).json({ message: 'Error' })
       })
   }

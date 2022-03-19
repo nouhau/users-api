@@ -1,5 +1,6 @@
 import getManagerMock from '../../__mocks__/getEntityManagerMock'
 import { getMockUser } from '../../__mocks__/mockUser'
+import { userRole } from '../constants/userRole'
 import { UserRepository } from './users.repository'
 
 describe('userRepository', () => {
@@ -48,5 +49,21 @@ describe('userRepository', () => {
 
     const user = await userRepository.findAuthUser(userMock.email)
     expect(user).toBe(null)
+  })
+
+  it('should return users with role student', async () => {
+    const mockStudents = [
+      getMockUser(userRole.STUDENT),
+      getMockUser(userRole.STUDENT)
+    ]
+
+    managerMock = await getManagerMock({
+      findReturn: mockStudents
+    })
+
+    userRepository = new UserRepository(managerMock)
+
+    const students = await userRepository.getStudents()
+    expect(students).toBe(mockStudents)
   })
 })

@@ -1,10 +1,12 @@
 import { Router } from 'express'
 import { verifyAdmin } from '../middlewares/verifyAdmin'
 import { verifyAuthenticated } from '../middlewares/verifyAuthenticated'
-import { CreateUserController } from '../users/controllers/createUser.controller'
+import { UserController } from '../users/controllers/user.controller'
 
-const createUserController = new CreateUserController()
+const userController = new UserController()
 
 export const userRouter = Router()
 
-userRouter.post('/user', verifyAuthenticated, verifyAdmin, createUserController.handle)
+userRouter.use(verifyAuthenticated, verifyAdmin)
+userRouter.post('/user', userController.handle)
+userRouter.get('/students', userController.getStudents)

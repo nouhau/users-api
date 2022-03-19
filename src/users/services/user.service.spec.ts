@@ -1,30 +1,27 @@
 import * as bcrypt from 'bcryptjs'
+import { userRole } from '../../common/constants/userRole'
 import mockConnection from '../../__mocks__/mockConnection'
 import { getMockUser } from '../../__mocks__/mockUser'
-import { CreateUserService } from './createUser.service'
+import { UserService } from './user.service'
 
 jest.mock('bcryptjs')
 jest.mock('../../common/repositories/users.repository')
 
 const userMockRepository = require('../../common/repositories/users.repository')
 
-describe('CreateUserService', () => {
-  let createUserService
+describe('UserService', () => {
+  let userService
 
   const userMock = getMockUser()
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     await mockConnection.create()
-    createUserService = new CreateUserService({
-      userRepository: userMockRepository,
-      name: userMock.name,
-      email: userMock.email,
-      password: userMock.password,
-      role: userMock.role
+    userService = new UserService({
+      userRepository: userMockRepository
     })
   })
 
-  afterEach(async () => {
+  afterAll(async () => {
     await mockConnection.clear()
   })
 
@@ -36,9 +33,28 @@ describe('CreateUserService', () => {
 
     jest.spyOn(bcrypt, 'hash').mockImplementation(() => Promise.resolve('3ncrypt3d'))
 
-    const user = await createUserService.execute()
+    const user = await userService.createUser(
+      userMock.name,
+      userMock.email,
+      userMock.password,
+      userMock.role
+    )
 
     expect(userMockRepository.save).toHaveBeenCalled()
     expect(user).toMatchObject(userMock)
+  })
+
+  it('Get users with role student', async () => {
+    const mockStudents = [
+      getMockUser(userRole.STUDENT),
+      getMockUser(userRole.STUDENT)
+    ]
+    userMockRepository.getStudents = jest.fn()
+      .mockImplementation(() => Promise.resolve(mockStudents))
+
+    const user = await userService.getStudents()
+
+    expect(userMockRepository.getStudents).toHaveBeenCalled()
+    expect(user).toMatchObject(mockStudents)
   })
 })

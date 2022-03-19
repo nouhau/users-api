@@ -6,8 +6,6 @@ module.exports = {
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
   ssl: {
-    // DO NOT DO THIS
-    // set up your ca correctly to trust the connection
     rejectUnauthorized: false
   },
   entities: [
