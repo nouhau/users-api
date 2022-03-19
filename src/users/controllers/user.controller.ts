@@ -44,13 +44,13 @@ export class UserController {
       })
   }
 
-  async getStudents(request: Request, response: Response): Promise<Response> {
+  async getStudents (request: Request, response: Response): Promise<Response> {
     const userService = new UserService({})
     return await userService.getStudents()
       .then(students => {
         return response.status(200).json({ students })
       })
-      .catch(error => {
+      .catch(() => {
         return response.status(500).json({ message: 'Error' })
       })
   }
