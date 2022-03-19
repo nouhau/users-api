@@ -1,4 +1,5 @@
 import { EntityManager, EntityRepository } from 'typeorm'
+import { userRole } from '../constants/userRole'
 import { User } from '../entities/Users'
 
 @EntityRepository(User)
@@ -29,6 +30,14 @@ export class UserRepository {
       return await this.manager.findOne(User, {
         where: {
           email
+        }
+      })
+    }
+
+    getStudents = async (): Promise<User[]> => {
+      return await this.manager.find(User, {
+        where: {
+          role: userRole.STUDENT
         }
       })
     }
