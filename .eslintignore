@@ -1,0 +1,13 @@
+# Compiled Output #
+###################
+**/dist/*
+**/build/*
+**/coverage/*
+**/.nyc_output/*
+**/compiled_tests/*
+**/src/common/entities/*
+**/src/common/models/*
+**/src/**/dto/*
+**/node_modules/*
+**/api-tests/config/*
+**/tests

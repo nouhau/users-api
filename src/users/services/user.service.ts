@@ -2,6 +2,7 @@ import { hash } from 'bcryptjs'
 import { getCustomRepository } from 'typeorm'
 import { User } from '../../common/entities/Users'
 import { LoggerService } from '../../common/LoggerService'
+import { UserModel } from '../../common/models/user.model'
 import { UserRepository } from '../../common/repositories/users.repository'
 
 interface IUserRepository {
@@ -13,7 +14,7 @@ export class UserService {
     private logger: LoggerService = new LoggerService()
 
     constructor ({
-      userRepository = getCustomRepository(UserRepository),
+      userRepository = getCustomRepository(UserRepository)
     }: IUserRepository) {
       this.userRepository = userRepository
     }
@@ -49,12 +50,16 @@ export class UserService {
         })
     }
 
-    async getStudents():Promise<User[]> {
+    async getStudents ():Promise<UserModel[]> {
       this.logger.trace(
         'Creating users with role students',
         this.constructor.name
       )
 
       return await this.userRepository.getStudents()
+        .then(students => {
+          students.forEach(student => delete student.password)
+          return students
+        })
     }
 }

@@ -46,8 +46,8 @@ describe('UserService', () => {
 
   it('Get users with role student', async () => {
     const mockStudents = [
-      getMockUser(userRole.STUDENT),
-      getMockUser(userRole.STUDENT)
+      delete getMockUser(userRole.STUDENT).password,
+      delete getMockUser(userRole.STUDENT).password
     ]
     userMockRepository.getStudents = jest.fn()
       .mockImplementation(() => Promise.resolve(mockStudents))

@@ -70,8 +70,8 @@ describe('UserController', () => {
     const request = { } as Request
 
     const mockStudents = [
-      getMockUser(userRole.STUDENT),
-      getMockUser(userRole.STUDENT)
+      delete getMockUser(userRole.STUDENT).password,
+      delete getMockUser(userRole.STUDENT).password
     ]
 
     mockGetStudents = jest.fn().mockResolvedValue(mockStudents)
