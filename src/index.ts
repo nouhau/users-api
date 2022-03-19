@@ -31,8 +31,8 @@ server.use(function (request: Request, response: Response, next: NextFunction) {
 })
 
 server.use(
-  userRouter,
-  authRouter
+  authRouter,
+  userRouter
 )
 
 server.get('/', (request: Request, response: Response) => {
