@@ -57,4 +57,14 @@ describe('UserService', () => {
     expect(userMockRepository.getStudents).toHaveBeenCalled()
     expect(user).toMatchObject(mockStudents)
   })
+
+  it('Get user by userId', async () => {
+    userMockRepository.getById = jest.fn()
+      .mockImplementation(() => Promise.resolve(userMock))
+
+    const user = await userService.getUser(userMock.user_id)
+
+    expect(userMockRepository.getById).toHaveBeenCalled()
+    expect(user).toMatchObject(userMock)
+  })
 })

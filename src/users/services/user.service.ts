@@ -62,4 +62,16 @@ export class UserService {
           return students
         })
     }
+
+    async getUser (userId: string):Promise<User> {
+      this.logger.trace(
+        `Getting user by id ${userId}`,
+        this.constructor.name
+      )
+
+      return await this.userRepository.getById(userId)
+        .then(user => {
+          return user
+        })
+    }
 }

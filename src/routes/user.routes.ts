@@ -7,6 +7,6 @@ const userController = new UserController()
 
 export const userRouter = Router()
 
-userRouter.use(verifyAuthenticated, verifyAdmin)
-userRouter.post('/user', userController.handle)
+userRouter.get('/user/:userId', userController.getUser)
 userRouter.get('/students', userController.getStudents)
+userRouter.post('/user', verifyAuthenticated, verifyAdmin, userController.handle)

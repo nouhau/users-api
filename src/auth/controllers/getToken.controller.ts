@@ -8,7 +8,6 @@ export class GetTokenController {
   private logger: LoggerService = new LoggerService()
 
   async handle (request: Request, response: Response): Promise<Response> {
-    console.log(request.body)
     const authRequest: AuthRequest = new AuthRequest(request.body)
     const getTokenService = new GetTokenService(request.body)
 

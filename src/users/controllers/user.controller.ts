@@ -54,4 +54,17 @@ export class UserController {
         return response.status(500).json({ message: 'Error' })
       })
   }
+
+  async getUser (request: Request, response: Response): Promise<Response> {
+    const { userId } = request.params
+
+    const userService = new UserService({})
+    return await userService.getUser(userId)
+      .then(user => {
+        return response.status(200).json({ user })
+      })
+      .catch(() => {
+        return response.status(500).json({ message: 'Error' })
+      })
+  }
 }

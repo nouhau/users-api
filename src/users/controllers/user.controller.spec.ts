@@ -1,6 +1,7 @@
 import { Request } from 'express'
 import { getMockUser } from '../../__mocks__/mockUser'
 import { makeMockResponse } from '../../__mocks__/mockResponse'
+import { makeMockRequest } from '../../__mocks__/mockRequest'
 import { UserController } from './user.controller'
 import { userRole } from '../../common/constants/userRole'
 
@@ -75,6 +76,19 @@ describe('UserController', () => {
     ]
 
     mockGetStudents = jest.fn().mockResolvedValue(mockStudents)
+
+    await userController.getStudents(request, response)
+    expect(response.state.status).toBe(200)
+  })
+
+  it('should return status 200 when get user', async () => {
+    const request = makeMockRequest({
+      params: {
+        userId: userMock.user_id
+      }
+    })
+
+    mockGetStudents = jest.fn().mockResolvedValue(userMock)
 
     await userController.getStudents(request, response)
     expect(response.state.status).toBe(200)
