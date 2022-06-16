@@ -42,4 +42,4 @@ lerna-debug.log*
 /reports
 
 # env
-.env
+.env.local
