@@ -1,0 +1,31 @@
+{
+  "checkers": [
+    "typescript"
+  ],
+  "packageManager": "yarn",
+  "htmlReporter": {
+    "baseDir": "reports/mutation"
+  },
+  "mutate": [
+    "src/**/auth/**/*.{js,ts}",
+    "src/**/user/**/*.{js,ts}",
+    "!**/src/**/?(*.)+(spec|test).[tj]s?(x)",
+    "!**/__mocks__/**/*.{js,ts}",
+    "!**/src/**/migrations/**/*.{js,ts}"
+  ],
+  "reporters": [
+    "html",
+    "clear-text",
+    "progress"
+  ],
+  "tempDirName": ".stryker-tmp",
+  "testRunner": "jest",
+  "coverageAnalysis": "perTest",
+  "thresholds": {
+    "high": 80,
+    "low": 60,
+    "break": null
+  },
+  "tsconfigFile": "tsconfig.json",
+  "timeoutMS": 100000
+}
