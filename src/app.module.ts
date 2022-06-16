@@ -2,30 +2,24 @@ import { Module } from '@nestjs/common';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './common/entities/User';
+import { AuthModule } from './auth/auth.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import * as Joi from 'joi';
+import { typeOrmAsyncConfig } from './config/typeorm.config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5005,
-      username: 'postgres',
-      password: 'supersecretpassword',
-      database: 'pg-users',
-      // ssl: {
-      //   rejectUnauthorized: false
-      // },
-      entities: [
-        User
-      ],
-      migrations: [
-        Number(process.env.PORT) === 5001 || !process.env.PORT
-          ? 'src/config/migrations/*.ts'
-          : 'dist/config/migrations/*.js'
-
-      ]
-    }), 
-    UserModule
-  ],
+    TypeOrmModule.forRootAsync(typeOrmAsyncConfig), 
+    ConfigModule.forRoot({
+      validationSchema: Joi.object({
+        NODE_ENV: Joi.string()
+          .valid('development', 'production', 'test', 'provision')
+          .default('development'),
+        PORT: Joi.number().default(5000)
+        })
+      }),
+    UserModule, 
+    AuthModule
+  ]
 })
 export class AppModule {}

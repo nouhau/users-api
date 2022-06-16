@@ -1,6 +1,6 @@
 module.exports = {
   cli: {
-    migrationsDir: 'src/config/migrations',
+    migrationsDir: 'src/common/migrations',
     entitiesDir: 'src/common/entities'
   }
 }
