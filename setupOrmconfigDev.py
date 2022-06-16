@@ -1,6 +1,6 @@
 import sys
 
-ormconfig = 'ormconfig.js'
+ormconfig = 'src/config/typeorm.config.ts'
 
 ormconfigLines = ['ssl: {', '    rejectUnauthorized: false', '},']
 
