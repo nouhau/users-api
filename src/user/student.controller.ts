@@ -1,9 +1,8 @@
-import { Controller, Get, Logger, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { Controller, Get, Logger } from '@nestjs/common';
 import { UserModel } from './model/user.model';
 import { UserService } from './services/user.service';
 
-@Controller('student')
+@Controller('students')
 export class StudentController {
   constructor(
     private userService: UserService,
