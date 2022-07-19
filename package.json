@@ -96,6 +96,7 @@
     "coveragePathIgnorePatterns": [
       ".module.ts",
       "src/main.ts",
+      "src/common/migrations/",
       ".config.ts"
     ],
     "coverageDirectory": "../coverage",
