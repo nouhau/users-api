@@ -29,7 +29,6 @@ export class UserController {
     return this.userService.createUser(body)
   }
 
-  @UseGuards(AuthGuard('jwt'))
   @Get('/:userId')
   async getUserById(@Param('userId') userId: string): Promise<UserModel> {
     this.logger.log(
