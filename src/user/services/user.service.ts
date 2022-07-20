@@ -124,4 +124,29 @@ export class UserService {
 
     return students
   }
+
+  getStudentsByCompany = async(companyId: string): Promise<UserModel[]> => {
+    this.logger.log(
+      `Finding students by companyId: ${companyId}`
+    )
+
+    const students: User[] = await this.userRepository.find({
+      where: {
+        role: userRole.STUDENT,
+        company_id: companyId
+      }
+    })
+
+    students.forEach((student: User) => {
+      delete student.password
+      delete student.companyData
+      delete student.company_id
+    })
+
+    this.logger.log(
+      `Total students find: ${students.length}`
+    )
+
+    return students
+  }
 }

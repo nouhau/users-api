@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { randomUUID } from 'crypto'
+import { Company } from './Company'
 
 @Entity('users')
 export class User {
@@ -17,6 +18,13 @@ export class User {
 
     @Column({ nullable: false })
     role: string
+
+    @Column()
+    company_id?: string
+
+    @JoinColumn({ name: 'company_id' })
+    @ManyToOne(() => Company)
+    companyData?: Company
 
     constructor (
       name: string,

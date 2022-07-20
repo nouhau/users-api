@@ -208,4 +208,38 @@ describe('UserService', () => {
       expect(student.role).toBe(userRole.STUDENT)
     })
   })
+
+  it('should return all user with role student and companyId', async () => {
+    const mockCompanyId = randomUUID()
+    const mockStudent = {
+      ...getMockUserModel({role: userRole.STUDENT}),
+      password: '123456',
+      company_id: mockCompanyId
+    }
+    const anotherMockStudent = {
+      ...getMockUserModel({role: userRole.STUDENT}),
+      password: '123456',
+      company_id: mockCompanyId
+    }
+    const mockFindReturn = [mockStudent, anotherMockStudent]
+    jest.spyOn(mockUserRepository, 'find').mockImplementation(() => Promise.resolve(mockFindReturn))
+    const students = await service.getStudentsByCompany(mockCompanyId)
+    expect(mockLogger.log).toBeCalledWith(
+      `Finding students by companyId: ${mockCompanyId }`
+    )
+    expect(mockLogger.log).toBeCalledWith(
+      `Total students find: ${mockFindReturn.length}`
+    )
+    expect(mockUserRepository.find).toHaveBeenCalledWith({
+      where: {
+        role: userRole.STUDENT,
+        company_id: mockCompanyId
+      }
+    })
+    expect(students).toMatchObject(mockFindReturn)
+    students.forEach(student => {
+      expect(student).not.toHaveProperty('password')
+      expect(student.role).toBe(userRole.STUDENT)
+    })
+  })
 });

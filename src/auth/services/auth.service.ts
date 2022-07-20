@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
-import { compare } from 'bcryptjs'
 import { UserModel } from '../../user/model/user.model';
 import { UserService } from '../../user/services/user.service';
 
