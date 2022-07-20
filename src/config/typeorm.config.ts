@@ -2,6 +2,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import {
   TypeOrmModuleAsyncOptions
 } from '@nestjs/typeorm';
+import { Company } from '../common/entities/Company';
 import { User } from '../common/entities/User';
 
 export const typeOrmAsyncConfig: TypeOrmModuleAsyncOptions = {
@@ -19,7 +20,8 @@ export const typeOrmAsyncConfig: TypeOrmModuleAsyncOptions = {
         rejectUnauthorized: false
       },
       entities: [
-        User
+        User,
+        Company
       ],
       migrations: [
         '../common/migrations/*.{js,ts}'

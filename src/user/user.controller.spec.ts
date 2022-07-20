@@ -58,7 +58,7 @@ describe('UserController', () => {
   });
 
   it('should return a user with id', async () => {
-    const mockUserId = randomUUID().toString()
+    const mockUserId = randomUUID()
     const mockUser = getMockUserModel({user_id: mockUserId})
     jest.spyOn(mockUserService, 'getUserById').mockImplementation(() => Promise.resolve(mockUser))
     const response = await userController.getUserById(mockUserId)

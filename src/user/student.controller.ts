@@ -1,4 +1,4 @@
-import { Controller, Get, Logger } from '@nestjs/common';
+import { Controller, Get, Logger, Param } from '@nestjs/common';
 import { UserModel } from './model/user.model';
 import { UserService } from './services/user.service';
 
@@ -15,5 +15,14 @@ export class StudentController {
       `Getting students`
     )
     return this.userService.getStudents()
+  }
+
+  @Get('/company/:companyId')
+  async getStudentsByCompany(@Param('companyId') companyId: string): Promise<UserModel[]> {
+    this.logger.log(
+      `Getting students by companyId: ${companyId}`
+    )
+
+    return this.userService.getStudentsByCompany(companyId)
   }
 }
